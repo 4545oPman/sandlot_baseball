@@ -5,7 +5,6 @@ export const MOCK_POSTS: Post[] = [
   {
     id: "1",
     category: "match",
-    title: "日曜午前に練習試合できるチーム募集！",
     teamName: "世田谷ベースボールクラブ",
     eventDate: "2026-07-12T09:00:00+09:00",
     prefecture: "東京都",
@@ -24,7 +23,6 @@ export const MOCK_POSTS: Post[] = [
   {
     id: "2",
     category: "helper",
-    title: "【急募】外野手1名！日曜の公式戦に来られる方",
     teamName: "横浜グリーンズ",
     eventDate: "2026-07-05T13:00:00+09:00",
     prefecture: "神奈川県",
@@ -42,7 +40,6 @@ export const MOCK_POSTS: Post[] = [
   {
     id: "3",
     category: "ground",
-    title: "土曜午後の河川敷グラウンドをお譲りします",
     teamName: "多摩川ファイターズ",
     eventDate: "2026-07-18T13:00:00+09:00",
     prefecture: "東京都",
@@ -60,7 +57,6 @@ export const MOCK_POSTS: Post[] = [
   {
     id: "4",
     category: "match",
-    title: "初心者大歓迎！ゆるく練習試合しませんか",
     teamName: "さいたまサンデーズ",
     eventDate: "2026-08-02T10:00:00+09:00",
     prefecture: "埼玉県",
@@ -77,7 +73,6 @@ export const MOCK_POSTS: Post[] = [
   {
     id: "5",
     category: "helper",
-    title: "ピッチャーできる方募集！土曜の練習試合",
     teamName: "大阪イーグルス",
     eventDate: "2026-07-11T14:00:00+09:00",
     prefecture: "大阪府",
@@ -96,7 +91,6 @@ export const MOCK_POSTS: Post[] = [
   {
     id: "6",
     category: "match",
-    title: "ナイター練習試合の相手募集（平日夜）",
     teamName: "名古屋ナイトホークス",
     eventDate: "2026-07-16T19:00:00+09:00",
     prefecture: "愛知県",
@@ -113,7 +107,6 @@ export const MOCK_POSTS: Post[] = [
   {
     id: "7",
     category: "ground",
-    title: "日曜朝のグラウンド枠あります（福岡）",
     teamName: "博多リバーサイド",
     eventDate: "2026-07-26T08:00:00+09:00",
     prefecture: "福岡県",
@@ -131,7 +124,6 @@ export const MOCK_POSTS: Post[] = [
   {
     id: "8",
     category: "helper",
-    title: "キャッチャー募集（経験者優遇）",
     teamName: "札幌ノーススターズ",
     eventDate: "2026-06-28T10:00:00+09:00",
     prefecture: "北海道",
@@ -148,7 +140,6 @@ export const MOCK_POSTS: Post[] = [
   {
     id: "9",
     category: "match",
-    title: "週末に練習試合できる相手を探しています",
     teamName: "神戸ベイスターズ",
     eventDate: "2026-08-09T13:00:00+09:00",
     prefecture: "兵庫県",
@@ -165,7 +156,6 @@ export const MOCK_POSTS: Post[] = [
   {
     id: "10",
     category: "helper",
-    title: "内野手2名募集！日曜の大会に向けて",
     teamName: "仙台ブレイブス",
     eventDate: "2026-07-19T09:00:00+09:00",
     prefecture: "宮城県",
@@ -183,7 +173,6 @@ export const MOCK_POSTS: Post[] = [
   {
     id: "11",
     category: "ground",
-    title: "平日夕方のグラウンド譲渡（広島）",
     teamName: "広島カープシティ",
     eventDate: "2026-07-23T16:00:00+09:00",
     prefecture: "広島県",
@@ -200,7 +189,6 @@ export const MOCK_POSTS: Post[] = [
   {
     id: "12",
     category: "match",
-    title: "ガチ目の練習試合相手募集（上級）",
     teamName: "千葉サンダーボルツ",
     eventDate: "2026-08-16T10:00:00+09:00",
     prefecture: "千葉県",

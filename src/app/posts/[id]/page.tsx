@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 
 import { PostDetail } from "@/components/posts/post-detail";
 import { MOCK_POSTS, getPostById } from "@/lib/mock-data";
-import { isPastEvent } from "@/lib/format";
+import { isPastEvent, buildBoardTitle } from "@/lib/format";
 
 export function generateStaticParams() {
   // 募集終了・開催日が過ぎたものは事前生成しない
@@ -21,7 +21,7 @@ export async function generateMetadata({
   const post = getPostById(id);
   if (!post) return { title: "募集が見つかりません | 草野球マッチ" };
   return {
-    title: `${post.title} | 草野球マッチ`,
+    title: `${buildBoardTitle(post)}（${post.teamName}）| 草野球マッチ`,
     description: post.description.slice(0, 120),
   };
 }

@@ -45,9 +45,9 @@ export function PostCard({ post }: { post: Post }) {
           </span>
         </h3>
 
-        {/* キャッチコピー（投稿者の見出し）とチーム名 */}
-        <p className="mb-3 line-clamp-1 text-xs text-muted-foreground">
-          {post.title}（{post.teamName}）
+        {/* チーム名 */}
+        <p className="mb-3 line-clamp-1 text-sm text-muted-foreground">
+          {post.teamName}
         </p>
 
         <dl className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm">

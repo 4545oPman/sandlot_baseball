@@ -70,7 +70,7 @@ export function PostDetail({ post }: { post: Post }) {
           {buildBoardTitle(post)}
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          {post.title} ／ {post.teamName}
+          {post.teamName}
         </p>
       </div>
 

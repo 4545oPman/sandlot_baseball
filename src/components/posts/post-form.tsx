@@ -231,17 +231,6 @@ export function PostForm() {
             </p>
           </div>
 
-          <Field
-            label="ひとことアピール"
-            htmlFor="title"
-            hint="一覧で補足として表示されます（任意）。"
-          >
-            <Input
-              id="title"
-              placeholder="例）和やかに楽しくやりましょう！初心者歓迎です"
-            />
-          </Field>
-
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <Field
               label="レベル"

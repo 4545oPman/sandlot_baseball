@@ -12,8 +12,6 @@ export interface Post {
   id: string;
   /** 募集種別 */
   category: Category;
-  /** 募集タイトル */
-  title: string;
   /** チーム名 */
   teamName: string;
   /** 開催日時 (ISO 8601) */
