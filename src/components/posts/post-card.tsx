@@ -4,11 +4,11 @@ import { Users, Coins, Clock } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { CategoryBadge } from "@/components/common/category-badge";
 import { StatusBadge } from "@/components/common/status-badge";
-import { LEVEL_LABELS } from "@/lib/constants";
 import {
   formatEventDateShort,
   formatFee,
   formatDeadline,
+  formatLevel,
 } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { Post } from "@/lib/types";
@@ -28,7 +28,7 @@ export function PostCard({ post }: { post: Post }) {
           <div className="flex items-center gap-2">
             <CategoryBadge category={post.category} />
             <span className="text-xs text-muted-foreground">
-              {LEVEL_LABELS[post.level]}
+              {formatLevel(post.level)}
             </span>
           </div>
           <StatusBadge status={post.status} />

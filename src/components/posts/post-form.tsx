@@ -243,7 +243,11 @@ export function PostForm() {
           </Field>
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <Field label="レベル" required>
+            <Field
+              label="レベル"
+              required
+              hint="数字が大きいほど経験者・上級者の目安です。"
+            >
               <Select value={level} onValueChange={setLevel}>
                 <SelectTrigger>
                   <SelectValue />

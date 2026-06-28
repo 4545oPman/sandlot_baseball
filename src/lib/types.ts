@@ -4,8 +4,8 @@ export type Category = "match" | "helper" | "ground";
 // 募集状況
 export type PostStatus = "open" | "closing_soon" | "closed";
 
-// チームのレベル
-export type Level = "beginner" | "casual" | "intermediate" | "advanced" | "any";
+// チームのレベル（0.5刻みのレンジ。キーはレンジの下限値、"3.0" は 3.0以上）
+export type Level = "any" | "1.0" | "1.5" | "2.0" | "2.5" | "3.0";
 
 // 募集投稿データ
 export interface Post {

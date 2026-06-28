@@ -1,7 +1,8 @@
 // 表示用フォーマットヘルパー
 // 日本向けサービスのため、日時は常に JST (Asia/Tokyo) で表示する
 
-import type { Post } from "./types";
+import type { Level, Post } from "./types";
+import { LEVEL_LABELS } from "./constants";
 
 const TZ = "Asia/Tokyo";
 const WEEKDAYS = ["日", "月", "火", "水", "木", "金", "土"];
@@ -63,6 +64,11 @@ export function formatEventDateShort(iso: string): string {
 export function formatDeadline(iso: string): string {
   const p = jstParts(iso);
   return `${p.month}月${p.day}日`;
+}
+
+/** ラベル無しで表示する場合のレベル表記。数値レンジには "Lv." を付ける */
+export function formatLevel(level: Level): string {
+  return level === "any" ? LEVEL_LABELS.any : `Lv. ${LEVEL_LABELS[level]}`;
 }
 
 /** 費用表示。null は応相談、0 は無料 */

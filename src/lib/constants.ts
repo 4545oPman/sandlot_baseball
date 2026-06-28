@@ -16,21 +16,23 @@ export const CATEGORY_DESCRIPTIONS: Record<Category, string> = {
 // タブ表示順
 export const CATEGORY_ORDER: Category[] = ["match", "helper", "ground"];
 
-// レベルラベル
+// レベルラベル（0.5刻みのレンジ。"3.0" は 3.0以上）
 export const LEVEL_LABELS: Record<Level, string> = {
-  beginner: "初心者歓迎",
-  casual: "エンジョイ",
-  intermediate: "中級",
-  advanced: "上級・経験者",
   any: "レベル不問",
+  "1.0": "1.0〜1.5",
+  "1.5": "1.5〜2.0",
+  "2.0": "2.0〜2.5",
+  "2.5": "2.5〜3.0",
+  "3.0": "3.0以上",
 };
 
 export const LEVEL_ORDER: Level[] = [
   "any",
-  "beginner",
-  "casual",
-  "intermediate",
-  "advanced",
+  "1.0",
+  "1.5",
+  "2.0",
+  "2.5",
+  "3.0",
 ];
 
 // 募集状況ラベル
