@@ -60,12 +60,6 @@ export function formatEventDateShort(iso: string): string {
   return `${p.month}/${p.day}(${p.weekday}) ${p.hour}:${p.minute}`;
 }
 
-/** 7月10日 のような期限表示 */
-export function formatDeadline(iso: string): string {
-  const p = jstParts(iso);
-  return `${p.month}月${p.day}日`;
-}
-
 /** ラベル無しで表示する場合のレベル表記。数値レンジには "Lv." を付ける */
 export function formatLevel(level: Level): string {
   return level === "any" ? LEVEL_LABELS.any : `Lv. ${LEVEL_LABELS[level]}`;

@@ -12,7 +12,6 @@ export const MOCK_POSTS: Post[] = [
     level: "1.5",
     fee: 3000,
     capacity: null,
-    deadline: "2026-07-05T23:59:00+09:00",
     description:
       "30〜40代中心のエンジョイチームです。日曜午前に練習試合をしていただけるチームを募集しています。軟式（M号）、7イニング制、審判は双方で出し合いをお願いします。球場代は折半で1チームあたり3,000円程度です。和やかに楽しくやりましょう！",
     status: "open",
@@ -28,11 +27,10 @@ export const MOCK_POSTS: Post[] = [
     prefecture: "神奈川県",
     venue: "新横浜公園 第3軟式野球場",
     level: "2.0",
-    fee: 1000,
+    fee: null,
     capacity: 1,
-    deadline: "2026-07-03T20:00:00+09:00",
     description:
-      "リーグ戦で人数が足りず、外野を守れる助っ人を1名募集します。経験者だと助かりますが、しっかり守備ができれば大歓迎。参加費1,000円（球場代・ボール代）。道具は基本ご持参ください（グローブのみでOK、バット・ヘルメットは貸出あり）。",
+      "リーグ戦で人数が足りず、外野を守れる助っ人を1名募集します。経験者だと助かりますが、しっかり守備ができれば大歓迎。参加費は無料です。道具は基本ご持参ください（グローブのみでOK、バット・ヘルメットは貸出あり）。",
     status: "closing_soon",
     createdAt: "2026-06-25T18:30:00+09:00",
     contact: "090-0000-0000",
@@ -47,7 +45,6 @@ export const MOCK_POSTS: Post[] = [
     level: "any",
     fee: 2000,
     capacity: null,
-    deadline: "2026-07-15T23:59:00+09:00",
     description:
       "予定していた試合が中止になったため、押さえている土曜午後（13:00〜16:00）の枠をお譲りします。利用料は実費の2,000円のみ。河川敷ですがネット完備、駐車スペースあり。先着順とさせていただきます。",
     status: "open",
@@ -64,7 +61,6 @@ export const MOCK_POSTS: Post[] = [
     level: "1.0",
     fee: 2500,
     capacity: null,
-    deadline: "2026-07-25T23:59:00+09:00",
     description:
       "野球を始めたばかりのメンバーが多いチームです。勝ち負けよりも楽しむことを大切にしています。同じくらいのレベルのチームと練習試合できたら嬉しいです。女性メンバーも在籍しています。お気軽にご連絡ください。",
     status: "open",
@@ -78,11 +74,10 @@ export const MOCK_POSTS: Post[] = [
     prefecture: "大阪府",
     venue: "舞洲ベースボールスタジアム 第2",
     level: "2.0",
-    fee: 1500,
+    fee: null,
     capacity: 2,
-    deadline: "2026-07-08T22:00:00+09:00",
     description:
-      "ある程度投げられるピッチャーを1〜2名募集します。試合形式の練習で、しっかり野球をやりたい方向けです。経験者・現役世代歓迎。参加費1,500円。試合後に近くで軽く打ち上げ予定です（任意参加）。",
+      "ある程度投げられるピッチャーを1〜2名募集します。試合形式の練習で、しっかり野球をやりたい方向けです。経験者・現役世代歓迎。参加費は無料です。試合後に近くで軽く打ち上げ予定です（任意参加）。",
     status: "open",
     createdAt: "2026-06-24T21:00:00+09:00",
     contact: "osaka.eagles@example.com",
@@ -98,7 +93,6 @@ export const MOCK_POSTS: Post[] = [
     level: "2.0",
     fee: 4000,
     capacity: null,
-    deadline: "2026-07-10T23:59:00+09:00",
     description:
       "平日夜にナイターで練習試合できるチームを募集します。20〜30代中心、そこそこ本気でやっています。照明代込みで1チーム4,000円程度。19:00開始、21:00までの時間貸しです。",
     status: "open",
@@ -114,7 +108,6 @@ export const MOCK_POSTS: Post[] = [
     level: "any",
     fee: null,
     capacity: null,
-    deadline: "2026-07-20T23:59:00+09:00",
     description:
       "毎週押さえている枠が今回空いたため譲ります。利用料は当方が支払い済みのため無料ですが、簡単な整備のご協力をお願いします。朝8:00〜11:00。気持ちよく使っていただける方へ。",
     status: "open",
@@ -129,9 +122,8 @@ export const MOCK_POSTS: Post[] = [
     prefecture: "北海道",
     venue: "円山球場 補助グラウンド",
     level: "2.0",
-    fee: 1000,
+    fee: null,
     capacity: 1,
-    deadline: "2026-06-26T23:59:00+09:00",
     description:
       "キャッチャーができる方を募集していましたが、無事に決まりました。たくさんのご連絡ありがとうございました。また機会がありましたらよろしくお願いします。",
     status: "closed",
@@ -147,7 +139,6 @@ export const MOCK_POSTS: Post[] = [
     level: "1.5",
     fee: 3500,
     capacity: null,
-    deadline: "2026-08-01T23:59:00+09:00",
     description:
       "結成3年目のエンジョイチームです。月1〜2回ペースで活動しています。お互い楽しく試合ができればと思っています。球場代は折半でお願いします。よろしくお願いします！",
     status: "open",
@@ -161,11 +152,10 @@ export const MOCK_POSTS: Post[] = [
     prefecture: "宮城県",
     venue: "シェルコムせんだい",
     level: "1.5",
-    fee: 1200,
+    fee: null,
     capacity: 2,
-    deadline: "2026-07-14T21:00:00+09:00",
     description:
-      "地域の大会に出場するため、内野を守れる助っ人を2名募集します。レベルはエンジョイ寄りなので気軽にご参加ください。参加費1,200円（保険・球場代）。試合は1日2〜3試合の予定です。",
+      "地域の大会に出場するため、内野を守れる助っ人を2名募集します。レベルはエンジョイ寄りなので気軽にご参加ください。参加費は無料です。試合は1日2〜3試合の予定です。",
     status: "closing_soon",
     createdAt: "2026-06-26T19:00:00+09:00",
     contact: "sendai.braves@example.com",
@@ -180,7 +170,6 @@ export const MOCK_POSTS: Post[] = [
     level: "any",
     fee: 1500,
     capacity: null,
-    deadline: "2026-07-18T23:59:00+09:00",
     description:
       "平日夕方16:00〜18:00の枠を譲ります。練習にちょうど良い広さです。利用料1,500円。お早めにご連絡ください。",
     status: "open",
@@ -196,7 +185,6 @@ export const MOCK_POSTS: Post[] = [
     level: "2.0",
     fee: 5000,
     capacity: null,
-    deadline: "2026-08-08T23:59:00+09:00",
     description:
       "本気で野球に取り組んでいるチームです。同じく真剣に取り組むチームと試合がしたいです。9イニング、公式ルール準拠。球場代は折半（1チーム5,000円程度）。レベルの高い試合をしましょう。",
     status: "open",

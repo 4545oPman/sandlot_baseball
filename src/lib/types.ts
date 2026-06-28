@@ -26,8 +26,6 @@ export interface Post {
   fee: number | null;
   /** 募集人数 (グラウンド譲渡では使わない場合 null) */
   capacity: number | null;
-  /** 募集期限 (ISO 8601) */
-  deadline: string;
   /** 詳細説明 */
   description: string;
   /** 募集状況 */

@@ -153,20 +153,15 @@ export function PostForm() {
             <Input id="teamName" required placeholder="例）世田谷ベースボールクラブ" />
           </Field>
 
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <Field label="開催日時" htmlFor="eventDate" required>
-              <Input
-                id="eventDate"
-                type="datetime-local"
-                required
-                value={eventDate}
-                onChange={(e) => setEventDate(e.target.value)}
-              />
-            </Field>
-            <Field label="募集期限" htmlFor="deadline" required>
-              <Input id="deadline" type="date" required />
-            </Field>
-          </div>
+          <Field label="開催日時" htmlFor="eventDate" required>
+            <Input
+              id="eventDate"
+              type="datetime-local"
+              required
+              value={eventDate}
+              onChange={(e) => setEventDate(e.target.value)}
+            />
+          </Field>
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <Field label="都道府県" required>
@@ -267,9 +262,16 @@ export function PostForm() {
           </div>
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <Field label="費用（円）" htmlFor="fee" hint="無料の場合は0、応相談の場合は空欄">
-              <Input id="fee" type="number" min={0} placeholder="例）3000" />
-            </Field>
+            {/* 助っ人は費用を取らないため費用欄は表示しない */}
+            {category !== "helper" && (
+              <Field
+                label="費用（円）"
+                htmlFor="fee"
+                hint="無料の場合は0、応相談の場合は空欄"
+              >
+                <Input id="fee" type="number" min={0} placeholder="例）3000" />
+              </Field>
+            )}
             {/* 練習試合はチーム単位の募集のため人数欄は表示しない */}
             {category !== "match" && (
               <Field

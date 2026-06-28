@@ -4,7 +4,6 @@ import {
   MapPin,
   Users,
   Coins,
-  Clock,
   Trophy,
   Building2,
   Mail,
@@ -22,7 +21,6 @@ import { LEVEL_LABELS } from "@/lib/constants";
 import {
   formatEventDate,
   formatFee,
-  formatDeadline,
   buildBoardTitle,
   googleMapsSearchUrl,
   googleMapsEmbedUrl,
@@ -107,11 +105,14 @@ export function PostDetail({ post }: { post: Post }) {
               label="レベル"
               value={LEVEL_LABELS[post.level]}
             />
-            <DetailRow
-              icon={Coins}
-              label="費用"
-              value={formatFee(post.fee)}
-            />
+            {/* 助っ人は費用項目を表示しない */}
+            {post.category !== "helper" && (
+              <DetailRow
+                icon={Coins}
+                label="費用"
+                value={formatFee(post.fee)}
+              />
+            )}
             {post.capacity !== null && (
               <DetailRow
                 icon={Users}
@@ -119,11 +120,6 @@ export function PostDetail({ post }: { post: Post }) {
                 value={`${post.capacity}名`}
               />
             )}
-            <DetailRow
-              icon={Clock}
-              label="募集期限"
-              value={formatDeadline(post.deadline)}
-            />
             {post.contact && (
               <DetailRow icon={Mail} label="連絡先" value={post.contact} />
             )}

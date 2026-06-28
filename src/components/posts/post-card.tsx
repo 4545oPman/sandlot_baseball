@@ -1,15 +1,10 @@
 import Link from "next/link";
-import { Users, Coins, Clock } from "lucide-react";
+import { Users, Coins } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 import { CategoryBadge } from "@/components/common/category-badge";
 import { StatusBadge } from "@/components/common/status-badge";
-import {
-  formatEventDateShort,
-  formatFee,
-  formatDeadline,
-  formatLevel,
-} from "@/lib/format";
+import { formatEventDateShort, formatFee, formatLevel } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { Post } from "@/lib/types";
 
@@ -51,10 +46,13 @@ export function PostCard({ post }: { post: Post }) {
         </p>
 
         <dl className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm">
-          <div className="flex items-center gap-1.5 text-foreground">
-            <Coins className="size-4 shrink-0 text-primary" />
-            <span>{formatFee(post.fee)}</span>
-          </div>
+          {/* 助っ人は費用項目を表示しない */}
+          {post.category !== "helper" && (
+            <div className="flex items-center gap-1.5 text-foreground">
+              <Coins className="size-4 shrink-0 text-primary" />
+              <span>{formatFee(post.fee)}</span>
+            </div>
+          )}
           {post.capacity !== null && (
             <div className="flex items-center gap-1.5 text-foreground">
               <Users className="size-4 shrink-0 text-primary" />
@@ -62,11 +60,6 @@ export function PostCard({ post }: { post: Post }) {
             </div>
           )}
         </dl>
-
-        <div className="mt-3 flex items-center gap-1.5 border-t pt-2 text-xs text-muted-foreground">
-          <Clock className="size-3.5 shrink-0" />
-          <span>募集期限: {formatDeadline(post.deadline)}</span>
-        </div>
       </Card>
     </Link>
   );
