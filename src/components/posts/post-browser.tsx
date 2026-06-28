@@ -5,18 +5,12 @@ import { useMemo, useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { PostList } from "./post-list";
 import { FilterBar, DEFAULT_FILTERS, type Filters } from "./filter-bar";
-import type { MultiSelectOption } from "@/components/common/multi-select";
 import {
   CATEGORY_LABELS,
   CATEGORY_ORDER,
   CATEGORY_DESCRIPTIONS,
 } from "@/lib/constants";
-import {
-  toDateInputValue,
-  eventTimeJst,
-  isPastEvent,
-  formatEventDateShort,
-} from "@/lib/format";
+import { toDateInputValue, eventTimeJst, isPastEvent } from "@/lib/format";
 import type { Category, Post } from "@/lib/types";
 
 function filterPosts(
@@ -59,19 +53,6 @@ export function PostBrowser({ posts }: { posts: Post[] }) {
     [posts]
   );
 
-  // 絞り込みの選択肢（実在する日付・都道府県のみ）
-  const dateOptions = useMemo<MultiSelectOption[]>(() => {
-    const seen = new Map<string, string>();
-    for (const p of activePosts) {
-      const value = toDateInputValue(p.eventDate);
-      if (!seen.has(value)) seen.set(value, formatEventDateShort(p.eventDate));
-    }
-    return [...seen.entries()]
-      .sort((a, b) => a[0].localeCompare(b[0]))
-      // 時刻部分を除いた日付ラベルにする
-      .map(([value, label]) => ({ value, label: label.split(" ")[0] }));
-  }, [activePosts]);
-
   const counts = useMemo(() => {
     const map = {} as Record<Category, number>;
     for (const c of CATEGORY_ORDER) {
@@ -106,11 +87,7 @@ export function PostBrowser({ posts }: { posts: Post[] }) {
         <p className="text-sm text-muted-foreground">
           {CATEGORY_DESCRIPTIONS[category]}
         </p>
-        <FilterBar
-          filters={filters}
-          onChange={setFilters}
-          dateOptions={dateOptions}
-        />
+        <FilterBar filters={filters} onChange={setFilters} />
       </div>
 
       {CATEGORY_ORDER.map((c) => (

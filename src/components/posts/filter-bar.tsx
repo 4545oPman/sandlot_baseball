@@ -11,11 +11,8 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import {
-  MultiSelect,
-  type MultiSelectOption,
-} from "@/components/common/multi-select";
 import { PrefectureRegionSelect } from "./prefecture-region-select";
+import { EventDatePicker } from "./event-date-picker";
 import {
   ACTIVE_STATUS_ORDER,
   LEVEL_LABELS,
@@ -50,11 +47,9 @@ export const DEFAULT_FILTERS: Filters = {
 export function FilterBar({
   filters,
   onChange,
-  dateOptions,
 }: {
   filters: Filters;
   onChange: (filters: Filters) => void;
-  dateOptions: MultiSelectOption[];
 }) {
   const hasActiveFilter =
     filters.dates.length > 0 ||
@@ -69,8 +64,7 @@ export function FilterBar({
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <div className="space-y-1">
           <Label className="text-xs text-muted-foreground">開催日</Label>
-          <MultiSelect
-            options={dateOptions}
+          <EventDatePicker
             selected={filters.dates}
             onChange={(dates) => onChange({ ...filters, dates })}
             placeholder="すべての日付"
