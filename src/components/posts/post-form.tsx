@@ -281,13 +281,16 @@ export function PostForm() {
             <Field label="費用（円）" htmlFor="fee" hint="無料の場合は0、応相談の場合は空欄">
               <Input id="fee" type="number" min={0} placeholder="例）3000" />
             </Field>
-            <Field
-              label="募集人数"
-              htmlFor="capacity"
-              hint="グラウンド譲渡などで不要な場合は空欄"
-            >
-              <Input id="capacity" type="number" min={0} placeholder="例）1" />
-            </Field>
+            {/* 練習試合はチーム単位の募集のため人数欄は表示しない */}
+            {category !== "match" && (
+              <Field
+                label="募集人数"
+                htmlFor="capacity"
+                hint="グラウンド譲渡などで不要な場合は空欄"
+              >
+                <Input id="capacity" type="number" min={0} placeholder="例）1" />
+              </Field>
+            )}
           </div>
 
           <Field label="詳細説明" htmlFor="description" required>
