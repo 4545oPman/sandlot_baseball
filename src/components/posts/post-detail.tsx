@@ -9,6 +9,7 @@ import {
   Building2,
   Mail,
   ChevronLeft,
+  ExternalLink,
 } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -21,6 +22,9 @@ import {
   formatEventDate,
   formatFee,
   formatDeadline,
+  buildBoardTitle,
+  googleMapsSearchUrl,
+  googleMapsEmbedUrl,
 } from "@/lib/format";
 import type { Post } from "@/lib/types";
 
@@ -60,10 +64,13 @@ export function PostDetail({ post }: { post: Post }) {
       </div>
 
       <div>
+        {/* 掲示板タイトル: 日時・場所・グラウンド名 */}
         <h1 className="text-xl font-bold leading-snug sm:text-2xl">
-          {post.title}
+          {buildBoardTitle(post)}
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">{post.teamName}</p>
+        <p className="mt-1 text-sm text-muted-foreground">
+          {post.title} ／ {post.teamName}
+        </p>
       </div>
 
       <Card>
@@ -82,7 +89,17 @@ export function PostDetail({ post }: { post: Post }) {
             <DetailRow
               icon={Building2}
               label="球場名"
-              value={post.venue}
+              value={
+                <a
+                  href={googleMapsSearchUrl(post)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-primary underline-offset-2 hover:underline"
+                >
+                  {post.venue}
+                  <ExternalLink className="size-3.5" />
+                </a>
+              }
             />
             <DetailRow
               icon={Trophy}
@@ -112,6 +129,34 @@ export function PostDetail({ post }: { post: Post }) {
           </dl>
         </CardContent>
       </Card>
+
+      {/* Google マップ（球場名で検索した位置を表示） */}
+      <div>
+        <div className="mb-2 flex items-center justify-between">
+          <h2 className="text-sm font-semibold">アクセス</h2>
+          <a
+            href={googleMapsSearchUrl(post)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-xs text-primary underline-offset-2 hover:underline"
+          >
+            Google マップで開く
+            <ExternalLink className="size-3.5" />
+          </a>
+        </div>
+        <div className="overflow-hidden rounded-xl border">
+          <iframe
+            title={`${post.venue} の地図`}
+            src={googleMapsEmbedUrl(post)}
+            className="h-56 w-full sm:h-72"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </div>
+        <p className="mt-1 text-xs text-muted-foreground">
+          ※ 地図は球場名でのGoogleマップ検索結果です。正確な場所は投稿者にご確認ください。
+        </p>
+      </div>
 
       <div>
         <h2 className="mb-2 text-sm font-semibold">詳細説明</h2>

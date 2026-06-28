@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CalendarDays, MapPin, Users, Coins, Clock } from "lucide-react";
+import { Users, Coins, Clock } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 import { CategoryBadge } from "@/components/common/category-badge";
@@ -34,22 +34,23 @@ export function PostCard({ post }: { post: Post }) {
           <StatusBadge status={post.status} />
         </div>
 
-        <h3 className="mb-1 line-clamp-2 text-base font-bold leading-snug">
-          {post.title}
+        {/* 掲示板タイトル: 日時・場所・グラウンド名 */}
+        <h3 className="mb-1 text-base font-bold leading-snug">
+          <span className="text-primary">
+            {formatEventDateShort(post.eventDate)}
+          </span>
+          <span className="mx-1 text-muted-foreground">｜</span>
+          <span>
+            {post.prefecture}・{post.venue}
+          </span>
         </h3>
-        <p className="mb-3 text-xs text-muted-foreground">{post.teamName}</p>
 
-        <dl className="grid grid-cols-1 gap-1.5 text-sm sm:grid-cols-2">
-          <div className="flex items-center gap-1.5 text-foreground">
-            <CalendarDays className="size-4 shrink-0 text-primary" />
-            <span>{formatEventDateShort(post.eventDate)}</span>
-          </div>
-          <div className="flex items-center gap-1.5 text-foreground">
-            <MapPin className="size-4 shrink-0 text-primary" />
-            <span className="truncate">
-              {post.prefecture}・{post.venue}
-            </span>
-          </div>
+        {/* キャッチコピー（投稿者の見出し）とチーム名 */}
+        <p className="mb-3 line-clamp-1 text-xs text-muted-foreground">
+          {post.title}（{post.teamName}）
+        </p>
+
+        <dl className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm">
           <div className="flex items-center gap-1.5 text-foreground">
             <Coins className="size-4 shrink-0 text-primary" />
             <span>{formatFee(post.fee)}</span>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ChevronLeft, CheckCircle2 } from "lucide-react";
+import { ChevronLeft, CheckCircle2, Search } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -57,6 +57,33 @@ export function PostForm() {
   const [prefecture, setPrefecture] = useState<string>("");
   const [level, setLevel] = useState<string>("any");
   const [status, setStatus] = useState<string>("open");
+  // 掲示板タイトルのプレビュー / Googleマップ検索に使う入力
+  const [eventDate, setEventDate] = useState<string>("");
+  const [venue, setVenue] = useState<string>("");
+
+  // 日時・場所・グラウンド名から掲示板タイトルを組み立てる（プレビュー用）
+  const boardTitlePreview = (() => {
+    const parts: string[] = [];
+    if (eventDate) {
+      const d = new Date(eventDate);
+      if (!Number.isNaN(d.getTime())) {
+        const wd = ["日", "月", "火", "水", "木", "金", "土"][d.getDay()];
+        const t = `${String(d.getHours()).padStart(2, "0")}:${String(
+          d.getMinutes()
+        ).padStart(2, "0")}`;
+        parts.push(`${d.getMonth() + 1}/${d.getDate()}(${wd}) ${t}`);
+      }
+    }
+    const place = [prefecture, venue].filter(Boolean).join("・");
+    if (place) parts.push(place);
+    return parts.join("｜");
+  })();
+
+  const mapsSearchUrl = venue
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        `${prefecture} ${venue}`.trim()
+      )}`
+    : null;
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -122,21 +149,19 @@ export function PostForm() {
             </Select>
           </Field>
 
-          <Field label="募集タイトル" htmlFor="title" required>
-            <Input
-              id="title"
-              required
-              placeholder="例）日曜午前に練習試合できるチーム募集！"
-            />
-          </Field>
-
           <Field label="チーム名" htmlFor="teamName" required>
             <Input id="teamName" required placeholder="例）世田谷ベースボールクラブ" />
           </Field>
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <Field label="開催日時" htmlFor="eventDate" required>
-              <Input id="eventDate" type="datetime-local" required />
+              <Input
+                id="eventDate"
+                type="datetime-local"
+                required
+                value={eventDate}
+                onChange={(e) => setEventDate(e.target.value)}
+              />
             </Field>
             <Field label="募集期限" htmlFor="deadline" required>
               <Input id="deadline" type="date" required />
@@ -158,10 +183,64 @@ export function PostForm() {
                 </SelectContent>
               </Select>
             </Field>
-            <Field label="球場名" htmlFor="venue" required>
-              <Input id="venue" required placeholder="例）駒沢オリンピック公園 軟式野球場" />
+            <Field
+              label="球場名 / グラウンド名"
+              htmlFor="venue"
+              required
+              hint="入力後、Googleマップで正式名称・場所を確認できます。"
+            >
+              <div className="flex gap-2">
+                <Input
+                  id="venue"
+                  required
+                  value={venue}
+                  onChange={(e) => setVenue(e.target.value)}
+                  placeholder="例）駒沢オリンピック公園 軟式野球場"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  aria-label="Googleマップで球場名を検索"
+                  disabled={!mapsSearchUrl}
+                  asChild={!!mapsSearchUrl}
+                >
+                  {mapsSearchUrl ? (
+                    <a
+                      href={mapsSearchUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Search className="size-4" />
+                    </a>
+                  ) : (
+                    <Search className="size-4" />
+                  )}
+                </Button>
+              </div>
             </Field>
           </div>
+
+          {/* 自動生成される掲示板タイトルのプレビュー */}
+          <div className="rounded-lg border bg-muted/50 p-3">
+            <p className="text-xs text-muted-foreground">
+              掲示板に表示されるタイトル（日時・場所・グラウンド名から自動作成）
+            </p>
+            <p className="mt-1 font-semibold">
+              {boardTitlePreview || "（日時・都道府県・球場名を入力すると表示されます）"}
+            </p>
+          </div>
+
+          <Field
+            label="ひとことアピール"
+            htmlFor="title"
+            hint="一覧で補足として表示されます（任意）。"
+          >
+            <Input
+              id="title"
+              placeholder="例）和やかに楽しくやりましょう！初心者歓迎です"
+            />
+          </Field>
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <Field label="レベル" required>
