@@ -302,6 +302,19 @@ export function PostForm() {
           <Field label="連絡先" htmlFor="contact" hint="メールアドレスや電話番号など">
             <Input id="contact" placeholder="例）example@example.com" />
           </Field>
+
+          <Field
+            label="チーム紹介URL"
+            htmlFor="teamUrl"
+            hint="チームのホームページやSNSのURL（任意）。"
+          >
+            <Input
+              id="teamUrl"
+              type="url"
+              inputMode="url"
+              placeholder="例）https://example.com/teams/your-team"
+            />
+          </Field>
         </CardContent>
       </Card>
 

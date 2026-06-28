@@ -16,24 +16,25 @@ export const CATEGORY_DESCRIPTIONS: Record<Category, string> = {
 // タブ表示順
 export const CATEGORY_ORDER: Category[] = ["match", "helper", "ground"];
 
-// レベルラベル（0.5刻みのレンジ。"3.0" は 3.0以上）
+// レベルラベル（0.5刻みのレンジ。"2.0" は 2.0以上）
 export const LEVEL_LABELS: Record<Level, string> = {
   any: "レベル不問",
   "1.0": "1.0〜1.5",
   "1.5": "1.5〜2.0",
-  "2.0": "2.0〜2.5",
-  "2.5": "2.5〜3.0",
-  "3.0": "3.0以上",
+  "2.0": "2.0以上",
 };
 
-export const LEVEL_ORDER: Level[] = [
-  "any",
-  "1.0",
-  "1.5",
-  "2.0",
-  "2.5",
-  "3.0",
-];
+export const LEVEL_ORDER: Level[] = ["any", "1.0", "1.5", "2.0"];
+
+// 時間帯フィルター用の時刻候補（30分刻み）
+export const TIME_OPTIONS: string[] = (() => {
+  const out: string[] = [];
+  for (let h = 6; h <= 22; h++) {
+    out.push(`${String(h).padStart(2, "0")}:00`);
+    if (h < 22) out.push(`${String(h).padStart(2, "0")}:30`);
+  }
+  return out;
+})();
 
 // 募集状況ラベル
 export const STATUS_LABELS: Record<PostStatus, string> = {

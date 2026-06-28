@@ -84,6 +84,12 @@ export function toDateInputValue(iso: string): string {
   return `${p.year}-${p.month.padStart(2, "0")}-${p.day.padStart(2, "0")}`;
 }
 
+/** ISO の JST 開始時刻 (HH:MM) を取り出す（時間帯フィルター比較用） */
+export function eventTimeJst(iso: string): string {
+  const p = jstParts(iso);
+  return `${p.hour}:${p.minute}`;
+}
+
 /**
  * 掲示板のタイトル。日時・場所（都道府県）・グラウンド名から自動生成する。
  * 例) 7/12(日) 09:00｜東京都・駒沢オリンピック公園 軟式野球場

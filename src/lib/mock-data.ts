@@ -19,6 +19,7 @@ export const MOCK_POSTS: Post[] = [
     status: "open",
     createdAt: "2026-06-20T10:00:00+09:00",
     contact: "setagaya-bbc@example.com",
+    teamUrl: "https://example.com/teams/setagaya-bbc",
   },
   {
     id: "2",
@@ -81,7 +82,7 @@ export const MOCK_POSTS: Post[] = [
     eventDate: "2026-07-11T14:00:00+09:00",
     prefecture: "大阪府",
     venue: "舞洲ベースボールスタジアム 第2",
-    level: "3.0",
+    level: "2.0",
     fee: 1500,
     capacity: 2,
     deadline: "2026-07-08T22:00:00+09:00",
@@ -90,6 +91,7 @@ export const MOCK_POSTS: Post[] = [
     status: "open",
     createdAt: "2026-06-24T21:00:00+09:00",
     contact: "osaka.eagles@example.com",
+    teamUrl: "https://example.com/teams/osaka-eagles",
   },
   {
     id: "6",
@@ -203,7 +205,7 @@ export const MOCK_POSTS: Post[] = [
     eventDate: "2026-08-16T10:00:00+09:00",
     prefecture: "千葉県",
     venue: "千葉県野球場",
-    level: "3.0",
+    level: "2.0",
     fee: 5000,
     capacity: 1,
     deadline: "2026-08-08T23:59:00+09:00",

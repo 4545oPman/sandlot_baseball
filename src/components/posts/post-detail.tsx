@@ -10,6 +10,7 @@ import {
   Mail,
   ChevronLeft,
   ExternalLink,
+  Link2,
 } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -125,6 +126,23 @@ export function PostDetail({ post }: { post: Post }) {
             />
             {post.contact && (
               <DetailRow icon={Mail} label="連絡先" value={post.contact} />
+            )}
+            {post.teamUrl && (
+              <DetailRow
+                icon={Link2}
+                label="チーム紹介"
+                value={
+                  <a
+                    href={post.teamUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-primary underline-offset-2 hover:underline"
+                  >
+                    チームページを見る
+                    <ExternalLink className="size-3.5" />
+                  </a>
+                }
+              />
             )}
           </dl>
         </CardContent>

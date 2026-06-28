@@ -10,7 +10,7 @@ import {
   CATEGORY_ORDER,
   CATEGORY_DESCRIPTIONS,
 } from "@/lib/constants";
-import { toDateInputValue } from "@/lib/format";
+import { toDateInputValue, eventTimeJst } from "@/lib/format";
 import type { Category, Post } from "@/lib/types";
 
 function filterPosts(
@@ -24,10 +24,17 @@ function filterPosts(
       filters.date ? toDateInputValue(p.eventDate) >= filters.date : true
     )
     .filter((p) =>
+      filters.timeFrom ? eventTimeJst(p.eventDate) >= filters.timeFrom : true
+    )
+    .filter((p) =>
+      filters.timeTo ? eventTimeJst(p.eventDate) <= filters.timeTo : true
+    )
+    .filter((p) =>
       filters.prefecture === "all"
         ? true
         : p.prefecture === filters.prefecture
     )
+    .filter((p) => (filters.level === "all" ? true : p.level === filters.level))
     .filter((p) =>
       filters.status === "all" ? true : p.status === filters.status
     )

@@ -12,18 +12,33 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { PREFECTURES, STATUS_LABELS, STATUS_ORDER } from "@/lib/constants";
-import type { PostStatus } from "@/lib/types";
+import {
+  LEVEL_LABELS,
+  LEVEL_ORDER,
+  PREFECTURES,
+  STATUS_LABELS,
+  STATUS_ORDER,
+  TIME_OPTIONS,
+} from "@/lib/constants";
+import type { Level, PostStatus } from "@/lib/types";
 
 export interface Filters {
   date: string;
+  /** 開始時刻の下限 (HH:MM)。"" は指定なし */
+  timeFrom: string;
+  /** 開始時刻の上限 (HH:MM)。"" は指定なし */
+  timeTo: string;
   prefecture: string;
+  level: Level | "all";
   status: PostStatus | "all";
 }
 
 export const DEFAULT_FILTERS: Filters = {
   date: "",
+  timeFrom: "",
+  timeTo: "",
   prefecture: "all",
+  level: "all",
   status: "all",
 };
 
@@ -36,7 +51,10 @@ export function FilterBar({
 }) {
   const hasActiveFilter =
     filters.date !== "" ||
+    filters.timeFrom !== "" ||
+    filters.timeTo !== "" ||
     filters.prefecture !== "all" ||
+    filters.level !== "all" ||
     filters.status !== "all";
 
   return (
@@ -55,6 +73,49 @@ export function FilterBar({
         </div>
 
         <div className="space-y-1">
+          <Label className="text-xs text-muted-foreground">時間帯（開始）</Label>
+          <div className="flex items-center gap-1.5">
+            <Select
+              value={filters.timeFrom || "any"}
+              onValueChange={(v) =>
+                onChange({ ...filters, timeFrom: v === "any" ? "" : v })
+              }
+            >
+              <SelectTrigger className="px-2">
+                <SelectValue placeholder="指定なし" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="any">指定なし</SelectItem>
+                {TIME_OPTIONS.map((t) => (
+                  <SelectItem key={t} value={t}>
+                    {t}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <span className="text-muted-foreground">〜</span>
+            <Select
+              value={filters.timeTo || "any"}
+              onValueChange={(v) =>
+                onChange({ ...filters, timeTo: v === "any" ? "" : v })
+              }
+            >
+              <SelectTrigger className="px-2">
+                <SelectValue placeholder="指定なし" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="any">指定なし</SelectItem>
+                {TIME_OPTIONS.map((t) => (
+                  <SelectItem key={t} value={t}>
+                    {t}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        <div className="space-y-1">
           <Label className="text-xs text-muted-foreground">都道府県</Label>
           <Select
             value={filters.prefecture}
@@ -68,6 +129,28 @@ export function FilterBar({
               {PREFECTURES.map((pref) => (
                 <SelectItem key={pref} value={pref}>
                   {pref}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-1">
+          <Label className="text-xs text-muted-foreground">レベル</Label>
+          <Select
+            value={filters.level}
+            onValueChange={(v) =>
+              onChange({ ...filters, level: v as Filters["level"] })
+            }
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="すべて" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">すべてのレベル</SelectItem>
+              {LEVEL_ORDER.map((l) => (
+                <SelectItem key={l} value={l}>
+                  {LEVEL_LABELS[l]}
                 </SelectItem>
               ))}
             </SelectContent>
