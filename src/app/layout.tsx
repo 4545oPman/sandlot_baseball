@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { SiteHeader } from "@/components/layout/site-header";
+import { CONTACT_FORM_URL } from "@/lib/constants";
 
 export const metadata: Metadata = {
   title: "草野球マッチ | 練習試合・助っ人・グラウンドの募集掲示板",
@@ -32,8 +33,16 @@ export default function RootLayout({
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <footer className="border-t py-6">
-          <div className="mx-auto max-w-3xl px-4 text-center text-xs text-muted-foreground">
-            草野球マッチ — デモ版（モックデータ）
+          <div className="mx-auto flex max-w-3xl flex-col items-center gap-2 px-4 text-center text-xs text-muted-foreground">
+            <a
+              href={CONTACT_FORM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary underline-offset-2 hover:underline"
+            >
+              お問い合わせ・改善要望はこちら
+            </a>
+            <span>草野球マッチ — デモ版（モックデータ）</span>
           </div>
         </footer>
       </body>

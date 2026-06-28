@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { Plus } from "lucide-react";
+import { Plus, MessageSquare } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { CONTACT_FORM_URL } from "@/lib/constants";
 
 export function SiteHeader() {
   return (
@@ -19,12 +20,26 @@ export function SiteHeader() {
           </span>
         </Link>
 
-        <Button asChild size="sm" className="hidden sm:inline-flex">
-          <Link href="/new">
-            <Plus className="size-4" />
-            募集を投稿
-          </Link>
-        </Button>
+        <div className="flex items-center gap-1.5">
+          {/* お問い合わせ・改善要望（Googleフォーム） */}
+          <Button asChild variant="ghost" size="sm">
+            <a
+              href={CONTACT_FORM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <MessageSquare className="size-4" />
+              お問い合わせ
+            </a>
+          </Button>
+
+          <Button asChild size="sm" className="hidden sm:inline-flex">
+            <Link href="/new">
+              <Plus className="size-4" />
+              募集を投稿
+            </Link>
+          </Button>
+        </div>
       </div>
     </header>
   );

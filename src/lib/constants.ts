@@ -1,5 +1,9 @@
 import type { Category, Level, PostStatus } from "./types";
 
+// お問い合わせ・改善要望フォーム（Google フォーム）のURL。
+// TODO: 実際の Google フォームの公開URLに差し替えてください。
+export const CONTACT_FORM_URL = "https://forms.gle/your-form-id";
+
 // 募集種別ラベル
 export const CATEGORY_LABELS: Record<Category, string> = {
   match: "練習試合",
