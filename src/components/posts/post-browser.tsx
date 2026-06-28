@@ -72,13 +72,6 @@ export function PostBrowser({ posts }: { posts: Post[] }) {
       .map(([value, label]) => ({ value, label: label.split(" ")[0] }));
   }, [activePosts]);
 
-  const prefectureOptions = useMemo<MultiSelectOption[]>(() => {
-    const set = new Set(activePosts.map((p) => p.prefecture));
-    return [...set]
-      .sort((a, b) => a.localeCompare(b, "ja"))
-      .map((p) => ({ value: p, label: p }));
-  }, [activePosts]);
-
   const counts = useMemo(() => {
     const map = {} as Record<Category, number>;
     for (const c of CATEGORY_ORDER) {
@@ -117,7 +110,6 @@ export function PostBrowser({ posts }: { posts: Post[] }) {
           filters={filters}
           onChange={setFilters}
           dateOptions={dateOptions}
-          prefectureOptions={prefectureOptions}
         />
       </div>
 

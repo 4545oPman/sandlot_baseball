@@ -15,6 +15,7 @@ import {
   MultiSelect,
   type MultiSelectOption,
 } from "@/components/common/multi-select";
+import { PrefectureRegionSelect } from "./prefecture-region-select";
 import {
   ACTIVE_STATUS_ORDER,
   LEVEL_LABELS,
@@ -50,12 +51,10 @@ export function FilterBar({
   filters,
   onChange,
   dateOptions,
-  prefectureOptions,
 }: {
   filters: Filters;
   onChange: (filters: Filters) => void;
   dateOptions: MultiSelectOption[];
-  prefectureOptions: MultiSelectOption[];
 }) {
   const hasActiveFilter =
     filters.dates.length > 0 ||
@@ -123,8 +122,7 @@ export function FilterBar({
 
         <div className="space-y-1">
           <Label className="text-xs text-muted-foreground">都道府県</Label>
-          <MultiSelect
-            options={prefectureOptions}
+          <PrefectureRegionSelect
             selected={filters.prefectures}
             onChange={(prefectures) => onChange({ ...filters, prefectures })}
             placeholder="すべての都道府県"
