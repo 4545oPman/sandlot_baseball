@@ -90,6 +90,16 @@ export function eventTimeJst(iso: string): string {
   return `${p.hour}:${p.minute}`;
 }
 
+/** 今日の JST 日付 (YYYY-MM-DD) */
+export function todayJst(): string {
+  return toDateInputValue(new Date().toISOString());
+}
+
+/** 開催日が過ぎた募集か（JSTの日付基準。開催日当日は過去扱いしない） */
+export function isPastEvent(iso: string): boolean {
+  return toDateInputValue(iso) < todayJst();
+}
+
 /**
  * 掲示板のタイトル。日時・場所（都道府県）・グラウンド名から自動生成する。
  * 例) 7/12(日) 09:00｜東京都・駒沢オリンピック公園 軟式野球場

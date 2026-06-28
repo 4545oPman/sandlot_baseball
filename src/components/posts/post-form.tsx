@@ -17,13 +17,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
+  ACTIVE_STATUS_ORDER,
   CATEGORY_LABELS,
   CATEGORY_ORDER,
   LEVEL_LABELS,
   LEVEL_ORDER,
   PREFECTURES,
   STATUS_LABELS,
-  STATUS_ORDER,
 } from "@/lib/constants";
 
 function Field({
@@ -267,7 +267,7 @@ export function PostForm() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {STATUS_ORDER.map((s) => (
+                  {ACTIVE_STATUS_ORDER.map((s) => (
                     <SelectItem key={s} value={s}>
                       {STATUS_LABELS[s]}
                     </SelectItem>

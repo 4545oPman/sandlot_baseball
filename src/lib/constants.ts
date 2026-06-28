@@ -26,12 +26,11 @@ export const LEVEL_LABELS: Record<Level, string> = {
 
 export const LEVEL_ORDER: Level[] = ["any", "1.0", "1.5", "2.0"];
 
-// 時間帯フィルター用の時刻候補（30分刻み）
+// 時間帯フィルター用の時刻候補（1時間刻み）
 export const TIME_OPTIONS: string[] = (() => {
   const out: string[] = [];
   for (let h = 6; h <= 22; h++) {
     out.push(`${String(h).padStart(2, "0")}:00`);
-    if (h < 22) out.push(`${String(h).padStart(2, "0")}:30`);
   }
   return out;
 })();
@@ -44,6 +43,9 @@ export const STATUS_LABELS: Record<PostStatus, string> = {
 };
 
 export const STATUS_ORDER: PostStatus[] = ["open", "closing_soon", "closed"];
+
+// 投稿・絞り込みで選べる募集状況（「募集終了」は表示しないため除外）
+export const ACTIVE_STATUS_ORDER: PostStatus[] = ["open", "closing_soon"];
 
 // 都道府県一覧
 export const PREFECTURES: string[] = [

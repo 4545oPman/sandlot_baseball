@@ -5,12 +5,18 @@ import { useMemo, useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { PostList } from "./post-list";
 import { FilterBar, DEFAULT_FILTERS, type Filters } from "./filter-bar";
+import type { MultiSelectOption } from "@/components/common/multi-select";
 import {
   CATEGORY_LABELS,
   CATEGORY_ORDER,
   CATEGORY_DESCRIPTIONS,
 } from "@/lib/constants";
-import { toDateInputValue, eventTimeJst } from "@/lib/format";
+import {
+  toDateInputValue,
+  eventTimeJst,
+  isPastEvent,
+  formatEventDateShort,
+} from "@/lib/format";
 import type { Category, Post } from "@/lib/types";
 
 function filterPosts(
@@ -21,7 +27,9 @@ function filterPosts(
   return posts
     .filter((p) => p.category === category)
     .filter((p) =>
-      filters.date ? toDateInputValue(p.eventDate) >= filters.date : true
+      filters.dates.length === 0
+        ? true
+        : filters.dates.includes(toDateInputValue(p.eventDate))
     )
     .filter((p) =>
       filters.timeFrom ? eventTimeJst(p.eventDate) >= filters.timeFrom : true
@@ -30,9 +38,9 @@ function filterPosts(
       filters.timeTo ? eventTimeJst(p.eventDate) <= filters.timeTo : true
     )
     .filter((p) =>
-      filters.prefecture === "all"
+      filters.prefectures.length === 0
         ? true
-        : p.prefecture === filters.prefecture
+        : filters.prefectures.includes(p.prefecture)
     )
     .filter((p) => (filters.level === "all" ? true : p.level === filters.level))
     .filter((p) =>
@@ -45,17 +53,43 @@ export function PostBrowser({ posts }: { posts: Post[] }) {
   const [category, setCategory] = useState<Category>("match");
   const [filters, setFilters] = useState<Filters>(DEFAULT_FILTERS);
 
+  // 「募集終了」を除外し、開催日が過ぎた募集は自動的に表示しない（=削除扱い）
+  const activePosts = useMemo(
+    () => posts.filter((p) => p.status !== "closed" && !isPastEvent(p.eventDate)),
+    [posts]
+  );
+
+  // 絞り込みの選択肢（実在する日付・都道府県のみ）
+  const dateOptions = useMemo<MultiSelectOption[]>(() => {
+    const seen = new Map<string, string>();
+    for (const p of activePosts) {
+      const value = toDateInputValue(p.eventDate);
+      if (!seen.has(value)) seen.set(value, formatEventDateShort(p.eventDate));
+    }
+    return [...seen.entries()]
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      // 時刻部分を除いた日付ラベルにする
+      .map(([value, label]) => ({ value, label: label.split(" ")[0] }));
+  }, [activePosts]);
+
+  const prefectureOptions = useMemo<MultiSelectOption[]>(() => {
+    const set = new Set(activePosts.map((p) => p.prefecture));
+    return [...set]
+      .sort((a, b) => a.localeCompare(b, "ja"))
+      .map((p) => ({ value: p, label: p }));
+  }, [activePosts]);
+
   const counts = useMemo(() => {
     const map = {} as Record<Category, number>;
     for (const c of CATEGORY_ORDER) {
-      map[c] = filterPosts(posts, c, filters).length;
+      map[c] = filterPosts(activePosts, c, filters).length;
     }
     return map;
-  }, [posts, filters]);
+  }, [activePosts, filters]);
 
   const visiblePosts = useMemo(
-    () => filterPosts(posts, category, filters),
-    [posts, category, filters]
+    () => filterPosts(activePosts, category, filters),
+    [activePosts, category, filters]
   );
 
   return (
@@ -79,7 +113,12 @@ export function PostBrowser({ posts }: { posts: Post[] }) {
         <p className="text-sm text-muted-foreground">
           {CATEGORY_DESCRIPTIONS[category]}
         </p>
-        <FilterBar filters={filters} onChange={setFilters} />
+        <FilterBar
+          filters={filters}
+          onChange={setFilters}
+          dateOptions={dateOptions}
+          prefectureOptions={prefectureOptions}
+        />
       </div>
 
       {CATEGORY_ORDER.map((c) => (

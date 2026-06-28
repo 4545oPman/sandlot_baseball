@@ -9,35 +9,39 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
+  MultiSelect,
+  type MultiSelectOption,
+} from "@/components/common/multi-select";
+import {
+  ACTIVE_STATUS_ORDER,
   LEVEL_LABELS,
   LEVEL_ORDER,
-  PREFECTURES,
   STATUS_LABELS,
-  STATUS_ORDER,
   TIME_OPTIONS,
 } from "@/lib/constants";
 import type { Level, PostStatus } from "@/lib/types";
 
 export interface Filters {
-  date: string;
+  /** 選択された開催日 (YYYY-MM-DD) の配列。空は指定なし */
+  dates: string[];
   /** 開始時刻の下限 (HH:MM)。"" は指定なし */
   timeFrom: string;
   /** 開始時刻の上限 (HH:MM)。"" は指定なし */
   timeTo: string;
-  prefecture: string;
+  /** 選択された都道府県の配列。空は指定なし */
+  prefectures: string[];
   level: Level | "all";
   status: PostStatus | "all";
 }
 
 export const DEFAULT_FILTERS: Filters = {
-  date: "",
+  dates: [],
   timeFrom: "",
   timeTo: "",
-  prefecture: "all",
+  prefectures: [],
   level: "all",
   status: "all",
 };
@@ -45,15 +49,19 @@ export const DEFAULT_FILTERS: Filters = {
 export function FilterBar({
   filters,
   onChange,
+  dateOptions,
+  prefectureOptions,
 }: {
   filters: Filters;
   onChange: (filters: Filters) => void;
+  dateOptions: MultiSelectOption[];
+  prefectureOptions: MultiSelectOption[];
 }) {
   const hasActiveFilter =
-    filters.date !== "" ||
+    filters.dates.length > 0 ||
     filters.timeFrom !== "" ||
     filters.timeTo !== "" ||
-    filters.prefecture !== "all" ||
+    filters.prefectures.length > 0 ||
     filters.level !== "all" ||
     filters.status !== "all";
 
@@ -61,14 +69,12 @@ export function FilterBar({
     <div className="rounded-xl border bg-card p-3">
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <div className="space-y-1">
-          <Label htmlFor="filter-date" className="text-xs text-muted-foreground">
-            開催日（以降）
-          </Label>
-          <Input
-            id="filter-date"
-            type="date"
-            value={filters.date}
-            onChange={(e) => onChange({ ...filters, date: e.target.value })}
+          <Label className="text-xs text-muted-foreground">開催日</Label>
+          <MultiSelect
+            options={dateOptions}
+            selected={filters.dates}
+            onChange={(dates) => onChange({ ...filters, dates })}
+            placeholder="すべての日付"
           />
         </div>
 
@@ -117,22 +123,12 @@ export function FilterBar({
 
         <div className="space-y-1">
           <Label className="text-xs text-muted-foreground">都道府県</Label>
-          <Select
-            value={filters.prefecture}
-            onValueChange={(v) => onChange({ ...filters, prefecture: v })}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="すべて" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">すべての都道府県</SelectItem>
-              {PREFECTURES.map((pref) => (
-                <SelectItem key={pref} value={pref}>
-                  {pref}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <MultiSelect
+            options={prefectureOptions}
+            selected={filters.prefectures}
+            onChange={(prefectures) => onChange({ ...filters, prefectures })}
+            placeholder="すべての都道府県"
+          />
         </div>
 
         <div className="space-y-1">
@@ -170,7 +166,7 @@ export function FilterBar({
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">すべての状況</SelectItem>
-              {STATUS_ORDER.map((s) => (
+              {ACTIVE_STATUS_ORDER.map((s) => (
                 <SelectItem key={s} value={s}>
                   {STATUS_LABELS[s]}
                 </SelectItem>

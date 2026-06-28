@@ -3,9 +3,13 @@ import type { Metadata } from "next";
 
 import { PostDetail } from "@/components/posts/post-detail";
 import { MOCK_POSTS, getPostById } from "@/lib/mock-data";
+import { isPastEvent } from "@/lib/format";
 
 export function generateStaticParams() {
-  return MOCK_POSTS.map((post) => ({ id: post.id }));
+  // 募集終了・開催日が過ぎたものは事前生成しない
+  return MOCK_POSTS.filter(
+    (post) => post.status !== "closed" && !isPastEvent(post.eventDate)
+  ).map((post) => ({ id: post.id }));
 }
 
 export async function generateMetadata({
@@ -30,7 +34,8 @@ export default async function PostDetailPage({
   const { id } = await params;
   const post = getPostById(id);
 
-  if (!post) {
+  // 募集終了・開催日が過ぎた募集は表示しない
+  if (!post || post.status === "closed" || isPastEvent(post.eventDate)) {
     notFound();
   }
 
