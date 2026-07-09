@@ -1,8 +1,8 @@
 // 表示用フォーマットヘルパー
 // 日本向けサービスのため、日時は常に JST (Asia/Tokyo) で表示する
 
-import type { Level, Post } from "./types";
-import { LEVEL_LABELS } from "./constants";
+import type { Level, Position, Post } from "./types";
+import { LEVEL_LABELS, POSITION_LABELS } from "./constants";
 
 const TZ = "Asia/Tokyo";
 const WEEKDAYS = ["日", "月", "火", "水", "木", "金", "土"];
@@ -60,9 +60,15 @@ export function formatEventDateShort(iso: string): string {
   return `${p.month}/${p.day}(${p.weekday}) ${p.hour}:${p.minute}`;
 }
 
-/** ラベル無しで表示する場合のレベル表記。数値レンジには "Lv." を付ける */
+/** レベル表記（事実ベースのラベルをそのまま返す） */
 export function formatLevel(level: Level): string {
-  return level === "any" ? LEVEL_LABELS.any : `Lv. ${LEVEL_LABELS[level]}`;
+  return LEVEL_LABELS[level];
+}
+
+/** ポジション表記。空/未指定は「ポジション不問」 */
+export function formatPositions(positions?: Position[]): string {
+  if (!positions || positions.length === 0) return "ポジション不問";
+  return positions.map((p) => POSITION_LABELS[p]).join("・");
 }
 
 /** 費用表示。null は応相談、0 は無料 */
@@ -92,6 +98,31 @@ export function todayJst(): string {
 /** 開催日が過ぎた募集か（JSTの日付基準。開催日当日は過去扱いしない） */
 export function isPastEvent(iso: string): boolean {
   return toDateInputValue(iso) < todayJst();
+}
+
+// Date -> "YYYY-MM-DD"（ローカル年月日）
+function localYmd(d: Date): string {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+/**
+ * 直近の土日 (YYYY-MM-DD の配列) を返す。
+ * 今日から見て最も近い土曜・日曜（今日が土日ならその日を含む）。
+ * デフォルトの開催日フィルターに使用。
+ */
+export function upcomingWeekendDates(base: Date = new Date()): string[] {
+  const dow = base.getDay(); // 0=日, 6=土
+  const addDays = (n: number) => {
+    const d = new Date(base);
+    d.setDate(d.getDate() + n);
+    return localYmd(d);
+  };
+  const nextSat = addDays((6 - dow + 7) % 7); // 直近（今日以降）の土曜
+  const nextSun = addDays((0 - dow + 7) % 7); // 直近（今日以降）の日曜
+  return [...new Set([nextSat, nextSun])].sort();
 }
 
 /**

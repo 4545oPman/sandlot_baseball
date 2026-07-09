@@ -18,13 +18,20 @@ import {
 } from "@/components/ui/select";
 import {
   ACTIVE_STATUS_ORDER,
+  AGE_GROUP_OPTIONS,
   CATEGORY_LABELS,
   CATEGORY_ORDER,
+  HIGH_COR_BAT_LABELS,
+  HIGH_COR_BAT_ORDER,
   LEVEL_LABELS,
   LEVEL_ORDER,
+  POSITION_LABELS,
+  POSITION_ORDER,
   PREFECTURES,
   STATUS_LABELS,
 } from "@/lib/constants";
+import { cn } from "@/lib/utils";
+import type { Position } from "@/lib/types";
 
 function Field({
   label,
@@ -57,9 +64,18 @@ export function PostForm() {
   const [prefecture, setPrefecture] = useState<string>("");
   const [level, setLevel] = useState<string>("any");
   const [status, setStatus] = useState<string>("open");
+  const [positions, setPositions] = useState<Position[]>([]);
+  const [ageGroup, setAgeGroup] = useState<string>("");
+  const [highCorBat, setHighCorBat] = useState<string>("either");
   // 掲示板タイトルのプレビュー / Googleマップ検索に使う入力
   const [eventDate, setEventDate] = useState<string>("");
   const [venue, setVenue] = useState<string>("");
+
+  function togglePosition(p: Position) {
+    setPositions((prev) =>
+      prev.includes(p) ? prev.filter((x) => x !== p) : [...prev, p]
+    );
+  }
 
   // 日時・場所・グラウンド名から掲示板タイトルを組み立てる（プレビュー用）
   const boardTitlePreview = (() => {
@@ -230,7 +246,7 @@ export function PostForm() {
             <Field
               label="レベル"
               required
-              hint="数字が大きいほど経験者・上級者の目安です。"
+              hint="チームの最も高い野球経験レベルの目安です。"
             >
               <Select value={level} onValueChange={setLevel}>
                 <SelectTrigger>
@@ -267,9 +283,15 @@ export function PostForm() {
               <Field
                 label="費用（円）"
                 htmlFor="fee"
-                hint="無料の場合は0、応相談の場合は空欄"
+                hint="無料の場合は0のまま。応相談の場合は空欄"
               >
-                <Input id="fee" type="number" min={0} placeholder="例）3000" />
+                <Input
+                  id="fee"
+                  type="number"
+                  min={0}
+                  defaultValue={0}
+                  placeholder="例）0"
+                />
               </Field>
             )}
             {/* 練習試合はチーム単位の募集のため人数欄は表示しない */}
@@ -283,6 +305,80 @@ export function PostForm() {
               </Field>
             )}
           </div>
+
+          {/* 助っ人募集: ポジション（複数選択可・未選択は不問） */}
+          {category === "helper" && (
+            <Field label="募集ポジション" hint="未選択の場合は「不問」になります。">
+              <div className="flex flex-wrap gap-2">
+                {POSITION_ORDER.map((p) => {
+                  const active = positions.includes(p);
+                  return (
+                    <button
+                      key={p}
+                      type="button"
+                      onClick={() => togglePosition(p)}
+                      aria-pressed={active}
+                      className={cn(
+                        "rounded-full border px-3 py-1.5 text-sm font-medium transition-colors",
+                        active
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-input bg-background hover:bg-accent/50"
+                      )}
+                    >
+                      {POSITION_LABELS[p]}
+                    </button>
+                  );
+                })}
+              </div>
+            </Field>
+          )}
+
+          {/* 試合当日の情報（グラウンド譲渡では不要） */}
+          {category !== "ground" && (
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <Field label="当日の年齢層" hint="任意">
+                <Select value={ageGroup} onValueChange={setAgeGroup}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="選択してください" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {AGE_GROUP_OPTIONS.map((a) => (
+                      <SelectItem key={a} value={a}>
+                        {a}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </Field>
+              <Field label="高反発バット" hint="任意">
+                <Select value={highCorBat} onValueChange={setHighCorBat}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {HIGH_COR_BAT_ORDER.map((b) => (
+                      <SelectItem key={b} value={b}>
+                        {HIGH_COR_BAT_LABELS[b]}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </Field>
+              <Field label="集合時間" htmlFor="meetingTime" hint="任意">
+                <Input id="meetingTime" type="time" />
+              </Field>
+              <Field
+                label="具体的な集合場所"
+                htmlFor="meetingPlace"
+                hint="任意。バックネット裏・正面入口など"
+              >
+                <Input
+                  id="meetingPlace"
+                  placeholder="例）第一球場 バックネット裏"
+                />
+              </Field>
+            </div>
+          )}
 
           <Field label="詳細説明" htmlFor="description" required>
             <Textarea

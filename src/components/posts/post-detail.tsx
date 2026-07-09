@@ -10,6 +10,10 @@ import {
   ChevronLeft,
   ExternalLink,
   Link2,
+  Shield,
+  Zap,
+  Clock,
+  Flag,
 } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -17,10 +21,11 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { CategoryBadge } from "@/components/common/category-badge";
 import { StatusBadge } from "@/components/common/status-badge";
-import { LEVEL_LABELS } from "@/lib/constants";
+import { LEVEL_LABELS, HIGH_COR_BAT_LABELS } from "@/lib/constants";
 import {
   formatEventDate,
   formatFee,
+  formatPositions,
   buildBoardTitle,
   googleMapsSearchUrl,
   googleMapsEmbedUrl,
@@ -118,6 +123,41 @@ export function PostDetail({ post }: { post: Post }) {
                 icon={Users}
                 label="募集人数"
                 value={`${post.capacity}名`}
+              />
+            )}
+            {post.category === "helper" && (
+              <DetailRow
+                icon={Shield}
+                label="ポジション"
+                value={formatPositions(post.positions)}
+              />
+            )}
+            {post.ageGroup && (
+              <DetailRow
+                icon={Users}
+                label="当日の年齢層"
+                value={post.ageGroup}
+              />
+            )}
+            {post.highCorBat && (
+              <DetailRow
+                icon={Zap}
+                label="高反発バット"
+                value={HIGH_COR_BAT_LABELS[post.highCorBat]}
+              />
+            )}
+            {post.meetingTime && (
+              <DetailRow
+                icon={Clock}
+                label="集合時間"
+                value={post.meetingTime}
+              />
+            )}
+            {post.meetingPlace && (
+              <DetailRow
+                icon={Flag}
+                label="集合場所"
+                value={post.meetingPlace}
               />
             )}
             {post.contact && (

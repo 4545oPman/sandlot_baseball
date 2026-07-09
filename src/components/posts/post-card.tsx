@@ -1,10 +1,15 @@
 import Link from "next/link";
-import { Users, Coins } from "lucide-react";
+import { Users, Coins, Shield } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 import { CategoryBadge } from "@/components/common/category-badge";
 import { StatusBadge } from "@/components/common/status-badge";
-import { formatEventDateShort, formatFee, formatLevel } from "@/lib/format";
+import {
+  formatEventDateShort,
+  formatFee,
+  formatLevel,
+  formatPositions,
+} from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { Post } from "@/lib/types";
 
@@ -57,6 +62,12 @@ export function PostCard({ post }: { post: Post }) {
             <div className="flex items-center gap-1.5 text-foreground">
               <Users className="size-4 shrink-0 text-primary" />
               <span>{post.capacity}名募集</span>
+            </div>
+          )}
+          {post.category === "helper" && (
+            <div className="flex items-center gap-1.5 text-foreground">
+              <Shield className="size-4 shrink-0 text-primary" />
+              <span>{formatPositions(post.positions)}</span>
             </div>
           )}
         </dl>

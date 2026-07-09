@@ -4,8 +4,14 @@ export type Category = "match" | "helper" | "ground";
 // 募集状況
 export type PostStatus = "open" | "closing_soon" | "closed";
 
-// チームのレベル（0.5刻みのレンジ。キーはレンジの下限値、"2.0" は 2.0以上）
-export type Level = "any" | "1.0" | "1.5" | "2.0";
+// チームのレベル（最終的な野球経験の目安。事実ベースで揺れにくくする）
+export type Level = "any" | "juniorhigh" | "highschool" | "college";
+
+// 守備位置
+export type Position = "P" | "C" | "1B" | "2B" | "3B" | "SS" | "OF";
+
+// 高反発バットの可否
+export type HighCorBat = "ok" | "ng" | "either";
 
 // 募集投稿データ
 export interface Post {
@@ -26,11 +32,21 @@ export interface Post {
   fee: number | null;
   /** 募集人数 (グラウンド譲渡では使わない場合 null) */
   capacity: number | null;
+  /** 募集ポジション（主に助っ人募集で使用）。空/未指定は「不問」 */
+  positions?: Position[];
+  /** 当日の年齢層（任意）。例: "30代中心" */
+  ageGroup?: string;
+  /** 高反発バットの可否（任意） */
+  highCorBat?: HighCorBat;
+  /** 集合時間 (HH:MM, 任意) */
+  meetingTime?: string;
+  /** 具体的な集合場所（任意） */
+  meetingPlace?: string;
   /** 詳細説明 */
   description: string;
   /** 募集状況 */
   status: PostStatus;
-  /** 投稿日時 (ISO 8601) */
+  /** 投稿日時 (ISO 8601)。更新順ソートに使用 */
   createdAt: string;
   /** 連絡先 (任意) */
   contact?: string;

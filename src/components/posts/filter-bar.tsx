@@ -11,16 +11,19 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { MultiSelect } from "@/components/common/multi-select";
 import { PrefectureRegionSelect } from "./prefecture-region-select";
 import { EventDatePicker } from "./event-date-picker";
 import {
   ACTIVE_STATUS_ORDER,
   LEVEL_LABELS,
   LEVEL_ORDER,
+  POSITION_LABELS,
+  POSITION_ORDER,
   STATUS_LABELS,
   TIME_OPTIONS,
 } from "@/lib/constants";
-import type { Level, PostStatus } from "@/lib/types";
+import type { Category, Level, Position, PostStatus } from "@/lib/types";
 
 export interface Filters {
   /** 選択された開催日 (YYYY-MM-DD) の配列。空は指定なし */
@@ -32,6 +35,8 @@ export interface Filters {
   /** 選択された都道府県の配列。空は指定なし */
   prefectures: string[];
   level: Level | "all";
+  /** 選択されたポジション（助っ人募集で使用）。空は指定なし */
+  positions: Position[];
   status: PostStatus | "all";
 }
 
@@ -41,15 +46,18 @@ export const DEFAULT_FILTERS: Filters = {
   timeTo: "",
   prefectures: [],
   level: "all",
+  positions: [],
   status: "all",
 };
 
 export function FilterBar({
   filters,
   onChange,
+  category,
 }: {
   filters: Filters;
   onChange: (filters: Filters) => void;
+  category: Category;
 }) {
   const hasActiveFilter =
     filters.dates.length > 0 ||
@@ -57,6 +65,7 @@ export function FilterBar({
     filters.timeTo !== "" ||
     filters.prefectures.length > 0 ||
     filters.level !== "all" ||
+    filters.positions.length > 0 ||
     filters.status !== "all";
 
   return (
@@ -144,6 +153,24 @@ export function FilterBar({
             </SelectContent>
           </Select>
         </div>
+
+        {/* ポジション絞り込みは助っ人募集タブでのみ表示 */}
+        {category === "helper" && (
+          <div className="space-y-1">
+            <Label className="text-xs text-muted-foreground">ポジション</Label>
+            <MultiSelect
+              options={POSITION_ORDER.map((p) => ({
+                value: p,
+                label: POSITION_LABELS[p],
+              }))}
+              selected={filters.positions}
+              onChange={(positions) =>
+                onChange({ ...filters, positions: positions as Position[] })
+              }
+              placeholder="すべてのポジション"
+            />
+          </div>
+        )}
 
         <div className="space-y-1">
           <Label className="text-xs text-muted-foreground">募集状況</Label>

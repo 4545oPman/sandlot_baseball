@@ -1,4 +1,10 @@
-import type { Category, Level, PostStatus } from "./types";
+import type {
+  Category,
+  HighCorBat,
+  Level,
+  Position,
+  PostStatus,
+} from "./types";
 
 // お問い合わせ・改善要望フォーム（Google フォーム）のURL。
 export const CONTACT_FORM_URL = "https://forms.gle/QyNShAFT346Yfib57";
@@ -10,24 +16,92 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   ground: "グラウンド譲渡",
 };
 
+// 募集する側・応募する側どちらから見ても迷わない中立的な説明（名詞ベース）
 export const CATEGORY_DESCRIPTIONS: Record<Category, string> = {
-  match: "対戦相手となるチームを募集します",
-  helper: "試合に参加してくれる助っ人を募集します",
-  ground: "予約済みグラウンドの枠を譲ります",
+  match: "チーム対チームの練習試合",
+  helper: "チームに加わる助っ人プレイヤー",
+  ground: "空いたグラウンド枠の譲渡",
 };
 
 // タブ表示順
 export const CATEGORY_ORDER: Category[] = ["match", "helper", "ground"];
 
-// レベルラベル（0.5刻みのレンジ。"2.0" は 2.0以上）
+// レベルラベル（最終的な野球経験の目安。事実ベースで揺れにくくする）
 export const LEVEL_LABELS: Record<Level, string> = {
   any: "レベル不問",
-  "1.0": "1.0〜1.5",
-  "1.5": "1.5〜2.0",
-  "2.0": "2.0以上",
+  juniorhigh: "中学以下",
+  highschool: "高校まで",
+  college: "大学以上",
 };
 
-export const LEVEL_ORDER: Level[] = ["any", "1.0", "1.5", "2.0"];
+export const LEVEL_ORDER: Level[] = [
+  "any",
+  "juniorhigh",
+  "highschool",
+  "college",
+];
+
+// 守備位置ラベル
+export const POSITION_LABELS: Record<Position, string> = {
+  P: "投手",
+  C: "捕手",
+  "1B": "一塁手",
+  "2B": "二塁手",
+  "3B": "三塁手",
+  SS: "遊撃手",
+  OF: "外野手",
+};
+
+export const POSITION_ORDER: Position[] = [
+  "P",
+  "C",
+  "1B",
+  "2B",
+  "3B",
+  "SS",
+  "OF",
+];
+
+// 当日の年齢層の候補
+export const AGE_GROUP_OPTIONS: string[] = [
+  "10代中心",
+  "20代中心",
+  "30代中心",
+  "40代中心",
+  "50代以上中心",
+  "幅広い年代",
+];
+
+// 高反発バット可否ラベル
+export const HIGH_COR_BAT_LABELS: Record<HighCorBat, string> = {
+  ok: "高反発バットOK",
+  ng: "高反発バット不可",
+  either: "指定なし",
+};
+
+export const HIGH_COR_BAT_ORDER: HighCorBat[] = ["either", "ok", "ng"];
+
+// ワンタップ地方フィルター（東京圏／関東郊外／関西／その他）。
+// 「その他」は上記いずれにも含まれない都道府県として算出する。
+export const QUICK_REGIONS: { name: string; prefectures: string[] }[] = [
+  {
+    name: "東京圏",
+    prefectures: ["東京都", "神奈川県", "千葉県", "埼玉県"],
+  },
+  { name: "関東郊外", prefectures: ["栃木県", "茨城県", "群馬県"] },
+  {
+    name: "関西",
+    prefectures: [
+      "三重県",
+      "滋賀県",
+      "京都府",
+      "大阪府",
+      "兵庫県",
+      "奈良県",
+      "和歌山県",
+    ],
+  },
+];
 
 // 時間帯フィルター用の時刻候補（1時間刻み）
 export const TIME_OPTIONS: string[] = (() => {
